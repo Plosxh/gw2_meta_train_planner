@@ -1,0 +1,18 @@
+service: gw2_event_planner
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: eu-west-1
+
+functions:
+  gw2_event_planner:
+    handler: src/gw2_events_planner.handler
+    events:
+      - schedule: rate(5 minutes)
+    role: !GetAtt Gw2EventPlannerRole.Arn
+
+resources:
+  - ${file(cloudformation/events.yml)}
+  - ${file(cloudformation/event_stats.yml)}
+  - ${file(cloudformation/gw2_planner_role.yml)}

@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Resources:
+  EventStatsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: "event_stats"
+      AttributeDefinitions:
+        - AttributeName: "event_name"
+          AttributeType: S
+      KeySchema:
+        - AttributeName: "event_name"
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
